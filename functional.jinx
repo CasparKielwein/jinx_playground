@@ -1,0 +1,49 @@
+-- Implementation of higher order functions in jinx
+library functional
+
+-- transform a collection with a user supplied function
+function transformed {coll} with {fun}
+    set result to []
+    loop x over coll
+        set result[x key] to (call fun with x value)
+    end
+    return result
+end
+
+------
+The `then` at the end allows chaining
+by stopping the next function in the chain from having precedence over the last argument (fun)
+------
+function {coll} transformed (with) {fun} then
+    return transformed coll with fun
+end
+
+-- filter a collection by a user supplied predicate
+function filtered {coll} by {predicate}
+    set result to []
+    loop x over coll
+        if (call predicate with x value)
+            set result[x key] to x value
+        end
+    end
+    return result
+end
+
+-- filter for chaining
+function {coll} filtered (by) {predicate} then
+    return filtered coll by predicate
+end
+
+-- reduce a collection to a single value by applying a binary function
+function reduced {coll} by {binary_fun} starting with {initial value}
+    set current to initial value
+    loop x over coll
+        set current to (call binary_fun with current, x value)
+    end
+    return current
+end
+
+-- reduce
+function {coll} reduced (by) {binary fun}
+    return reduced coll by binary fun starting with 0
+end

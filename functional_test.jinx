@@ -1,0 +1,31 @@
+set test to 1,2,3,4,5,7,8,9,10
+
+function is_even {number x}
+    return x % 2 = 0
+end
+set even to function is_even {x}
+
+function times_two {x}
+    return x * 2
+end
+set times two to function times_two {x}
+
+function {x} plus {y}
+    return x + y
+end
+set sum to function {x} plus {y}
+
+set even numbers to filtered test by even
+set multiplied to transformed test with times two
+set summed up to reduced test by sum starting with 0
+
+set chain to ...
+    test filtered by even ...
+    then transformed with times two ...
+    then reduced by sum
+
+write line test
+write line even numbers
+write line multiplied
+write line summed up
+write line chain
